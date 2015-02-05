@@ -1,6 +1,7 @@
 #
 # Makefile for the Linux Bluetooth HCI device drivers.
 #
+CFLAGS_KERNEL := -fno-strict-aliasing
 
 ifeq ($(CONFIG_GPIO_PCAL6416A),y)
     EXTRA_CFLAGS += -DUSE_GPIO_EXPANDER_BT_EN

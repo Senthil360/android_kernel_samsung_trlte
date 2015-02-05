@@ -382,6 +382,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
  		   -Wno-implicit-function-declaration \
  		   -Wno-format-security -Wno-switch-bool \
  		   -Wno-sequence-point \
+ 		   -fstrict-aliasing -fno-common \
  		   -fno-delete-null-pointer-checks -fno-inline-functions\
  		   $(KERNELFLAGS) $(GRAPHITE)
 
