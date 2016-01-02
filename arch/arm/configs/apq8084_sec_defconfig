@@ -35,6 +35,9 @@ CONFIG_ZRAM=y
 CONFIG_ZRAM_LZ4_COMPRESS=y
 # CONFIG_ZRAM_DEBUG is not set
 CRYPTO_SHA256_ARM=y
+CONFIG_DEVFREQ_GOV_MSM_ADRENO_TZ=y
+CONFIG_ADRENO_IDLER=y
+CONFIG_MSM_ADRENO_DEFAULT_GOVERNOR="msm-adreno-tz"
 
 # ***************** End *****************************++
 
