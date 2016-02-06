@@ -1,5 +1,5 @@
 export ARCH=arm
-export CROSS_COMPILE=/home/crimsonthunder/arm-eabi-5.2/bin/arm-eabi-
+export CROSS_COMPILE=/home/crimsonthunder/arm-linux-gnueabi-5.3/bin/arm-eabi-
 mkdir output
 
 make -C $(pwd) O=$(pwd)/output VARIANT_DEFCONFIG=apq8084_sec_trlte_eur_defconfig apq8084_sec_defconfig
