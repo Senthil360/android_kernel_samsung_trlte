@@ -164,7 +164,7 @@ GCC_4.9.3_M = -marm -mtune=cortex-a15 -mcpu=cortex-a15 -mfpu=neon-vfpv4 \
 		  -fgcse-las -ftree-loop-im -ftree-loop-ivcanon -fweb \
 		  -frename-registers -ftree-loop-linear -ftree-vectorize \
 		  -fmodulo-sched -ffast-math -funsafe-math-optimizations \
-		  -std=gnu89 -Wno-implicit-function-declaration -Wno-switch
+		  -Wno-implicit-function-declaration -Wno-switch
 GCC_4.9.3_K = -munaligned-access -mfpu=neon-vfpv4 -Wno-implicit-function-declaration -Wno-switch
 GCC_4.9.3_K_G = -munaligned-access -mfpu=neon-vfpv4 -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -marm -mtune=cortex-a15 -mcpu=cortex-a15 -Wno-switch
 GCC_4.9.3_HOSTCFLAGS = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer -Wno-switch
@@ -391,10 +391,17 @@ LINUXINCLUDE    := \
 KBUILD_CPPFLAGS := -D__KERNEL__
 
 KBUILD_CFLAGS   := -Wundef -Wstrict-prototypes -Wno-trigraphs \
-		   -fno-strict-aliasing -fno-common \
-		   -Wno-format-security -Wno-implicit-function-declaration \
-		   -Wno-sequence-point -Wno-switch-bool\
-		   -fno-delete-null-pointer-checks
+ 		   -fno-strict-aliasing -fno-common \
+		   -Wno-format-security \
+		   -Wno-sequence-point \
+		   -fno-delete-null-pointer-checks -Wno-switch-bool \
+		   -marm -mcpu=cortex-a15 -mtune=cortex-a15 -fno-pic \
+		   -fmodulo-sched -fmodulo-sched-allow-regmoves -fno-tree-vectorize -ffast-math \
+		   -funswitch-loops -fpredictive-commoning -fgcse-after-reload \
+		   -fno-aggressive-loop-optimizations 
+
+# L1/L2 cache size parameters
+KBUILD_CFLAGS	+= --param l1-cache-size=32 --param l1-cache-line-size=32 --param l2-cache-size=1024
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
 KBUILD_AFLAGS   := -D__ASSEMBLY__
