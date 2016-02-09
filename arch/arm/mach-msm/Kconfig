@@ -29,7 +29,7 @@ config ARCH_MSM8974
 	select MSM_RPM_STATS_LOG
 	select QMI_ENCDEC
 	select MSM_ULTRASOUND_B
-	select MSM_RPM_LOG
+	#select MSM_RPM_LOG
 	select ARCH_WANT_KMAP_ATOMIC_FLUSH
 	select KRAIT_REGULATOR
 	select USB_ARCH_HAS_XHCI
@@ -61,8 +61,8 @@ config ARCH_APQ8084
 	select MSM_SPM_V2
 	select MSM_L2_SPM
 	select MSM_RPM_SMD
-	select MSM_RPM_STATS_LOG
-	select MSM_RPM_LOG
+	#select MSM_RPM_STATS_LOG
+	#select MSM_RPM_LOG
 	select USB_ARCH_HAS_XHCI
 	select KRAIT_REGULATOR
 	select PM_DEVFREQ
@@ -105,8 +105,8 @@ config ARCH_MPQ8092
 	select MSM_L2_SPM
 	select MSM_PM if PM
 	select MSM_RPM_SMD
-	select MSM_RPM_STATS_LOG
-	select MSM_RPM_LOG
+	#select MSM_RPM_STATS_LOG
+	#select MSM_RPM_LOG
 
 config ARCH_MSM8916
 	bool "MSM8916"
@@ -221,9 +221,9 @@ config ARCH_MSM8610
 	select MSM_SPM_REGULATOR
 	select MSM_JTAG_MM if CORESIGHT_ETM
 	select MSM_CPR_REGULATOR
-	select MSM_RPM_LOG
+	#select MSM_RPM_LOG
 	select MSM_IOMMU_SYNC
-	select MSM_RPM_STATS_LOG
+	#select MSM_RPM_STATS_LOG
 	select PINCTRL
 	select PINCTRL_MSM_TLMM_V3
 	select MSM_IRQ
@@ -262,8 +262,8 @@ config ARCH_MSM8226
 	select MSM_SPM_REGULATOR
 	select MSM_JTAG_MM if CORESIGHT_ETM
 	select MSM_CPR_REGULATOR
-	select MSM_RPM_LOG
-	select MSM_RPM_STATS_LOG
+	#select MSM_RPM_LOG
+	#select MSM_RPM_STATS_LOG
 	select ARCH_WANT_KMAP_ATOMIC_FLUSH
 	select PINCTRL
 	select PINCTRL_MSM_TLMM_V3
