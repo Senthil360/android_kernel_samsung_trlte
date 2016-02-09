@@ -382,7 +382,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
  		   -Wno-implicit-function-declaration \
  		   -Wno-format-security -Wno-switch-bool \
  		   -Wno-sequence-point \
- 		   -fno-delete-null-pointer-checks \
+ 		   -fno-delete-null-pointer-checks -fno-inline-functions\
  		   $(KERNELFLAGS) $(GRAPHITE)
 
 # L1/L2 cache size parameters
