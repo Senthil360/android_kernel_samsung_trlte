@@ -158,17 +158,6 @@ VPATH		:= $(srctree)$(if $(KBUILD_EXTMOD),:$(KBUILD_EXTMOD))
 
 export srctree objtree VPATH
 
-# Testflags for GCC 4.9.3 cortex_a15
-GCC_4.9.3_M = -marm -mtune=cortex-a15 -mcpu=cortex-a15 -mfpu=neon-vfpv4 \
-		  -mvectorize-with-neon-quad -fgcse-after-reload -fgcse-sm \
-		  -fgcse-las -ftree-loop-im -ftree-loop-ivcanon -fweb \
-		  -frename-registers -ftree-loop-linear -ftree-vectorize \
-		  -fmodulo-sched -ffast-math -funsafe-math-optimizations 
-GCC_4.9.3_K = -munaligned-access -mfpu=neon-vfpv4
-GCC_4.9.3_K_G = -munaligned-access -mfpu=neon-vfpv4 -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -marm -mtune=cortex-a15 -mcpu=cortex-a15 -fgcse-lm -fgcse-sm -fsched-spec-load -ffast-math -fsingle-precision-constant
-GCC_4.9.3_HOSTCFLAGS = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer
-GCC_4.9.3_HOSTCXXFLAGS = -O3
-
 # SUBARCH tells the usermode build what the underlying arch is.  That is set
 # first, and if a usermode build is happening, the "ARCH=um" on the command
 # line overrides the setting of ARCH below.  If a native build is happening,
@@ -233,6 +222,7 @@ endif
 # Additional ARCH settings for tile
 ifeq ($(ARCH),tilepro)
        SRCARCH := tile
+       
 endif
 ifeq ($(ARCH),tilegx)
        SRCARCH := tile
@@ -249,10 +239,10 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 	  else if [ -x /bin/bash ]; then echo /bin/bash; \
 	  else echo sh; fi ; fi)
 
-HOSTCC       = gcc
-HOSTCXX      = g++
-HOSTCFLAGS   = $(GCC_4.9.3_HOSTCFLAGS)
-HOSTCXXFLAGS = $(GCC_4.9.3_HOSTCXXFLAGS)
+HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer -Wno-unused-parameter -Wno-sign-compare -Wno-missing-field-initializers -Wno-unused-variable
+HOSTCXXFLAGS = -O3  -Wno-unused-variable -Wno-unused-parameter -Wno-sign-compare -Wno-missing-field-initializers
+HOSTCC       = $(CCACHE) gcc
+HOSTCXX      = $(CCACHE) g++
 
 # Decide whether to build built-in, modular, or both.
 # Normally, just do built-in.
@@ -355,13 +345,15 @@ export READELF
 cmd_fips_gen_hmac = $(CONFIG_SHELL) $(srctree)/scripts/fips_crypto_hmac.sh $(objtree)/vmlinux $(objtree)/System.map
 endif
 
+KERNELFLAGS	= -fgcse-lm -fgcse-sm -fsched-spec-load -ffast-math -fsingle-precision-constant -mtune=cortex-a15 -mfpu=neon-vfpv4
+GRAPHITE	= -marm -fopenmp -fgraphite -fgraphite-identity -floop-flatten -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -floop-nest-optimize
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF) -Wno-implicit-function-declaration
-CFLAGS_MODULE   =  $(GCC_4.9.3_M)
-AFLAGS_MODULE   =  $(GCC_4.9.3_M)
+CFLAGS_MODULE   = -DMODULE $(KERNELFLAGS) $(GRAPHITE)
+AFLAGS_MODULE   = -DMODULE $(KERNELFLAGS) $(GRAPHITE)
 LDFLAGS_MODULE  = --strip-debug
-CFLAGS_KERNEL	= $(GCC_4.9.3_K_G)
-AFLAGS_KERNEL	=
+CFLAGS_KERNEL	= $(KERNELFLAGS) $(GRAPHITE)
+AFLAGS_KERNEL	= $(KERNELFLAGS) $(GRAPHITE)
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
 
 
@@ -385,15 +377,13 @@ LINUXINCLUDE    := \
 
 KBUILD_CPPFLAGS := -D__KERNEL__
 
-KBUILD_CFLAGS   := -Wundef -Wstrict-prototypes -Wno-trigraphs \
+KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
  		   -fno-strict-aliasing -fno-common \
-		   -Wno-format-security \
-		   -Wno-sequence-point -Wno-implicit-function-declaration \
-		   -fno-delete-null-pointer-checks -Wno-switch-bool \
-		   -marm -mcpu=cortex-a15 -mtune=cortex-a15 -fno-pic \
-		   -fmodulo-sched -fmodulo-sched-allow-regmoves -fno-tree-vectorize -ffast-math \
-		   -funswitch-loops -fpredictive-commoning -fgcse-after-reload \
-		   -fno-aggressive-loop-optimizations 
+ 		   -Wno-implicit-function-declaration \
+ 		   -Wno-format-security -Wno-switch-bool \
+ 		   -Wno-sequence-point \
+ 		   -fno-delete-null-pointer-checks \
+ 		   $(KERNELFLAGS) $(GRAPHITE)
 
 # L1/L2 cache size parameters
 KBUILD_CFLAGS	+= --param l1-cache-size=32 --param l1-cache-line-size=32 --param l2-cache-size=1024
@@ -596,7 +586,7 @@ all: vmlinux
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= -Os $(call cc-disable-warning,maybe-uninitialized,)
 else
-KBUILD_CFLAGS	+= -O2
+KBUILD_CFLAGS	+= -O3
 endif
 
 # Tell gcc to never replace conditional load with a non-conditional one
