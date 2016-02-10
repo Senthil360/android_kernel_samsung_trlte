@@ -239,8 +239,8 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 	  else if [ -x /bin/bash ]; then echo /bin/bash; \
 	  else echo sh; fi ; fi)
 
-HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer -Wno-unused-parameter -Wno-sign-compare -Wno-missing-field-initializers -Wno-unused-variable
-HOSTCXXFLAGS = -O3  -Wno-unused-variable -Wno-unused-parameter -Wno-sign-compare -Wno-missing-field-initializers
+HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -Ofast -fomit-frame-pointer -std=gnu89
+HOSTCXXFLAGS = -Ofast
 HOSTCC       = $(CCACHE) gcc
 HOSTCXX      = $(CCACHE) g++
 
@@ -345,15 +345,16 @@ export READELF
 cmd_fips_gen_hmac = $(CONFIG_SHELL) $(srctree)/scripts/fips_crypto_hmac.sh $(objtree)/vmlinux $(objtree)/System.map
 endif
 
-KERNELFLAGS	= -fgcse-lm -fgcse-sm -fsched-spec-load -ffast-math -fsingle-precision-constant -mtune=cortex-a15 -mfpu=neon-vfpv4
-GRAPHITE	= -marm -fopenmp -fgraphite -fgraphite-identity -floop-flatten -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -floop-nest-optimize
+GRAPHITE = -fgraphite-identity -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -floop-flatten -floop-nest-optimize -floop-unroll-and-jam
+
+
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF) -Wno-implicit-function-declaration
-CFLAGS_MODULE   = -DMODULE $(KERNELFLAGS) $(GRAPHITE)
-AFLAGS_MODULE   = -DMODULE $(KERNELFLAGS) $(GRAPHITE)
+CFLAGS_MODULE   = -DMODULE $(GRAPHITE)
+AFLAGS_MODULE   = -DMODULE $(GRAPHITE)
 LDFLAGS_MODULE  = --strip-debug $(GRAPHITE)
-CFLAGS_KERNEL	= $(KERNELFLAGS) $(GRAPHITE)
-AFLAGS_KERNEL	= $(KERNELFLAGS) $(GRAPHITE)
+CFLAGS_KERNEL	= $(GRAPHITE)
+AFLAGS_KERNEL	= $(GRAPHITE)
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
 
 
@@ -377,17 +378,21 @@ LINUXINCLUDE    := \
 
 KBUILD_CPPFLAGS := -D__KERNEL__
 
-KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
- 		   -fstrict-aliasing -fno-common \
- 		   -Werror-implicit-function-declaration \
- 		   -Wno-format-security \
- 		   -Wno-sequence-point -Wno-switch-bool -Wno-implicit-function-declaration \
- 		   -fstrict-aliasing -fno-common -marm -funsafe-math-optimizations\
- 		   -fno-delete-null-pointer-checks -fno-inline-functions\
- 		   $(KERNELFLAGS) $(GRAPHITE)
+KBUILD_CFLAGS   := $(GRAPHITE) -Wall -pipe -DNDEBUG -Wundef -Wstrict-prototypes -Wno-trigraphs \
+		   -fstrict-aliasing -fivopts -fipa-pta -fira-hoist-pressure -fno-common \
+		   -ftree-loop-distribution -ftree-loop-if-convert -fprefetch-loop-arrays \
+		   -ftree-vectorize -fstdarg-opt -fsection-anchors -mvectorize-with-neon-quad \
+		   -Wno-switch-bool -Wno-implicit-function-declaration \
+		   -funroll-loops -ftree-loop-im -ftree-loop-ivcanon \
+		   -Wno-format-security -marm -funsafe-math-optimizations \
+           -mtune=cortex-a15 -fbranch-target-load-optimize \
+           -fmodulo-sched -fmodulo-sched-allow-regmoves \
+		   -fgcse-after-reload -fgcse-las \
+		   -fsingle-precision-constant  \
+		   -fno-delete-null-pointer-checks \
+		   --param l1-cache-size=16 --param l1-cache-line-size=16 --param l2-cache-size=2048 \
+		   -std=gnu89
 
-# L1/L2 cache size parameters
-KBUILD_CFLAGS	+= --param l1-cache-size=32 --param l1-cache-line-size=32 --param l2-cache-size=1024
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
 KBUILD_AFLAGS   := -D__ASSEMBLY__
