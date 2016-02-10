@@ -351,7 +351,7 @@ CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF) -Wno-implicit-function-declaration
 CFLAGS_MODULE   = -DMODULE $(KERNELFLAGS) $(GRAPHITE)
 AFLAGS_MODULE   = -DMODULE $(KERNELFLAGS) $(GRAPHITE)
-LDFLAGS_MODULE  = --strip-debug
+LDFLAGS_MODULE  = --strip-debug $(GRAPHITE)
 CFLAGS_KERNEL	= $(KERNELFLAGS) $(GRAPHITE)
 AFLAGS_KERNEL	= $(KERNELFLAGS) $(GRAPHITE)
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
@@ -378,11 +378,11 @@ LINUXINCLUDE    := \
 KBUILD_CPPFLAGS := -D__KERNEL__
 
 KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
- 		   -fno-strict-aliasing -fno-common \
- 		   -Wno-implicit-function-declaration \
- 		   -Wno-format-security -Wno-switch-bool \
- 		   -Wno-sequence-point \
  		   -fstrict-aliasing -fno-common \
+ 		   -Werror-implicit-function-declaration \
+ 		   -Wno-format-security \
+ 		   -Wno-sequence-point -Wno-switch-bool -Wno-implicit-function-declaration \
+ 		   -fstrict-aliasing -fno-common -marm -funsafe-math-optimizations\
  		   -fno-delete-null-pointer-checks -fno-inline-functions\
  		   $(KERNELFLAGS) $(GRAPHITE)
 
