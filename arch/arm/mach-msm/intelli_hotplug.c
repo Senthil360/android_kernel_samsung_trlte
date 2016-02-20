@@ -245,7 +245,7 @@ static void __ref cpu_up_down_work(struct work_struct *work)
 		for_each_online_cpu(cpu) {
 			if (cpu == 0)
 				continue;
-			if (check_down_lock(cpu) || check_cpuboost(cpu))
+			if (check_down_lock(cpu))
 				break;
 			l_nr_threshold =
 				cpu_nr_run_threshold << 1 / (num_online_cpus());
@@ -335,17 +335,7 @@ static void __ref intelli_plug_resume(struct work_struct *work)
 			INIT_DELAYED_WORK(&intelli_plug_work, intelli_plug_work_fn);
 		}
 	}
-
-	if (wakeup_boost || required_wakeup) {
-		/* Fire up all CPUs */
-		for_each_cpu_not(cpu, cpu_online_mask) {
-			if (cpu == 0)
-				continue;
-			cpu_up(cpu);
-			apply_down_lock(cpu);
-		}
-	}
-
+	
 	/* Resume hotplug workqueue if required */
 	if (required_reschedule)
 		queue_delayed_work_on(0, intelliplug_wq, &intelli_plug_work,
