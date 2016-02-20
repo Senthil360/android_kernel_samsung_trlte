@@ -34,6 +34,8 @@ CONFIG_ARCH_SUPPORTS_ATOMIC_RMW=y
 CONFIG_ZRAM=y
 CONFIG_ZRAM_LZ4_COMPRESS=y
 # CONFIG_ZRAM_DEBUG is not set
+CRYPTO_SHA256_ARM=y
+
 # ***************** End *****************************++
 
 
