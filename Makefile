@@ -388,7 +388,7 @@ KBUILD_CPPFLAGS := -D__KERNEL__
 KBUILD_CFLAGS   := -Wundef -Wstrict-prototypes -Wno-trigraphs \
  		   -fno-strict-aliasing -fno-common \
 		   -Wno-format-security \
-		   -Wno-sequence-point \
+		   -Wno-sequence-point -Wno-implicit-function-declaration \
 		   -fno-delete-null-pointer-checks -Wno-switch-bool \
 		   -marm -mcpu=cortex-a15 -mtune=cortex-a15 -fno-pic \
 		   -fmodulo-sched -fmodulo-sched-allow-regmoves -fno-tree-vectorize -ffast-math \
