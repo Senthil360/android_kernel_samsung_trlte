@@ -450,7 +450,7 @@ static int sco_sock_create(struct net *net, struct socket *sock, int protocol,
 	return 0;
 }
 
-static int sco_sock_bind(struct socket *sock, struct sockaddr *addr, int alen, int addr_len)
+static int sco_sock_bind(struct socket *sock, struct sockaddr *addr, int alen)
 {
 	struct sockaddr_sco sa;
 	struct sock *sk = sock->sk;
@@ -461,6 +461,9 @@ static int sco_sock_bind(struct socket *sock, struct sockaddr *addr, int alen, i
 	if (!addr || addr->sa_family != AF_BLUETOOTH)
 		return -EINVAL;
 
+        if (alen < sizeof(struct sockaddr_sco))
+		return -EINVAL;
+        
 	memset(&sa, 0, sizeof(sa));
 	len = min_t(unsigned int, sizeof(sa), alen);
 	memcpy(&sa, addr, len);

@@ -26,9 +26,10 @@ struct esoc_desc {
 	void *priv;
 };
 
+struct device;
+
 #ifdef CONFIG_ESOC_CLIENT
 /* Can return probe deferral */
-struct device *dev;
 struct esoc_desc *devm_register_esoc_client(struct device *dev,
 							const char *name);
 void devm_unregister_esoc_client(struct device *dev,
