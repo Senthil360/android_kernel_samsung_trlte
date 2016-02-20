@@ -479,6 +479,10 @@ static int od_init(struct dbs_data *dbs_data)
 	struct od_dbs_tuners *tuners;
 	u64 idle_time;
 	int cpu;
+	if (!tuners) {
+		pr_err("%s: kzalloc failed\n", __func__);
+		return -ENOMEM;
+	}
 
 	cpu = get_cpu();
 	idle_time = get_cpu_idle_time_us(cpu, NULL);
