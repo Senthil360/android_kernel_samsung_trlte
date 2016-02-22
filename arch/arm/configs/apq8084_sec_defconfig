@@ -3,7 +3,7 @@
 
 CONFIG_FAT_VIRTUAL_XATTR_SELINUX_LABEL="u:object_r:sdcard_external:s0"
 CONFIG_EXFAT_VIRTUAL_XATTR_SELINUX_LABEL="u:object_r:sdcard_external:s0"
-CONFIG_LOCALVERSION="NamelessKernel_CM-Edition"
+CONFIG_LOCALVERSION="NamelessKernel_CM-Edition-Beta2"
 CONFIG_DEFAULT_IOSCHED="noop"
 CONFIG_ZCACHE=y
 # CONFIG_ZCACHE_DEBUG is not set
