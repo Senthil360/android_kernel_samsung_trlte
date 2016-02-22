@@ -1,4 +1,12 @@
-
+CFLAGS_libata-core.o := -fno-strict-aliasing
+CFLAGS_libata-scsi.o := -fno-strict-aliasing
+CFLAGS_libata-eh.o := -fno-strict-aliasing
+CFLAGS_libata-transport.o:= -fno-strict-aliasing
+CFLAGS_libata-sff.o := -fno-strict-aliasing
+CFLAGS_libata-pmp.o := -fno-strict-aliasing
+CFLAGS_ahci_platform.o := -fno-strict-aliasing
+CFLAGS_alibahci.o := -fno-strict-aliasing
+CFLAGS_libahci.o := -fno-strict-aliasing
 obj-$(CONFIG_ATA)		+= libata.o
 
 # non-SFF interface

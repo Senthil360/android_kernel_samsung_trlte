@@ -380,16 +380,16 @@ KBUILD_CPPFLAGS := -D__KERNEL__
 
 KBUILD_CFLAGS   := $(GRAPHITE) -Wall -pipe -DNDEBUG -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fstrict-aliasing -fivopts -fipa-pta -fira-hoist-pressure -fno-common \
-		   -ftree-loop-distribution -ftree-loop-if-convert -fprefetch-loop-arrays \
+		   -ftree-loop-distribution -ftree-loop-if-convert \
 		   -ftree-vectorize -fstdarg-opt -fsection-anchors -mvectorize-with-neon-quad \
-		   -Wno-switch-bool -Wno-implicit-function-declaration \
-		   -funroll-loops -ftree-loop-im -ftree-loop-ivcanon \
+		   -Wno-switch-bool -Wno-implicit-function-declaration -Wno-parentheses \
+		   -funroll-loops -ftree-loop-im -ftree-loop-ivcanon -Wno-sequence-point \
 		   -Wno-format-security -marm -funsafe-math-optimizations \
-           -mtune=cortex-a15 -fbranch-target-load-optimize \
-           -fmodulo-sched -fmodulo-sched-allow-regmoves \
-		   -fgcse-after-reload -fgcse-las \
-		   -fsingle-precision-constant  \
-		   -fno-delete-null-pointer-checks \
+           -mtune=cortex-a15 -fbranch-target-load-optimize -Wno-unused-value \
+           -fmodulo-sched -fmodulo-sched-allow-regmoves -Wno-uninitialized \
+		   -fgcse-after-reload -fgcse-las -Wno-unused-function -Wno-switch \
+		   -fsingle-precision-constant -Wno-logical-not-parentheses \
+		   -fno-delete-null-pointer-checks -Wno-unused-variable \
 		   --param l1-cache-size=16 --param l1-cache-line-size=16 --param l2-cache-size=2048 \
 		   -std=gnu89
 

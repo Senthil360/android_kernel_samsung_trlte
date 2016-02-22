@@ -25,6 +25,8 @@
 #	make ARCH=arm KERNELPATH=~/Linaro-13.04/android/kernel/linaro/pandaboard CROSS_COMPILE=arm-eabi- clean release
 #	make ARCH=arm KERNELPATH=~/Linaro-13.04/android/kernel/linaro/pandaboard CROSS_COMPILE=arm-eabi- clean clean
 #
+CFLAGS_si_mhl2_edid_3d.o := -fno-strict-aliasing
+CFLAGS_si_emsc_hid.o := -fno-strict-aliasing
 
 #ifneq ($(KERNELRELEASE),)
 ifeq ($(CONFIG_SEC_MHL_SII8620),y)

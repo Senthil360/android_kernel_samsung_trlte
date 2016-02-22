@@ -1,3 +1,6 @@
+CFLAGS_lz4_compress.o := -fno-strict-aliasing
+CFLAGS_lz4_decompress.o := -fno-strict-aliasing
+CFLAGS_lz4hc_compress.o := -fno-strict-aliasing
 obj-$(CONFIG_LZ4_COMPRESS) += lz4_compress.o
 obj-$(CONFIG_LZ4HC_COMPRESS) += lz4hc_compress.o
 obj-$(CONFIG_LZ4_DECOMPRESS) += lz4_decompress.o

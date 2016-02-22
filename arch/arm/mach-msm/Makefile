@@ -1,5 +1,6 @@
 CFLAGS_board-msm-bcm4356.o := -fno-strict-aliasing
 CFLAGS_rpm_log.o := -fno-strict-aliasing
+CFLAGS_board-8084-wifi.o := -fno-strict-aliasing
 
 obj-y += io.o dma.o memory.o
 ifndef CONFIG_ARM_ARCH_TIMER

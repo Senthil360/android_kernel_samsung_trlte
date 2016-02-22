@@ -1,3 +1,5 @@
+CFLAGS_main.o := -fno-strict-aliasing
+CFLAGS_connection.o := -fno-strict-aliasing
 #
 # this makefile is called from the kernel make syste
 ifeq ($(MODE),release)

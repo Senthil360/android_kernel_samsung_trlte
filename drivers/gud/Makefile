@@ -6,6 +6,11 @@ GUD_ROOT_FOLDER := drivers/gud
 obj-$(CONFIG_MOBICORE_API) += mcKernelApi.o
 obj-$(CONFIG_MOBICORE_SUPPORT) += mcDrvModule.o
 
+CFLAGS_$(GUD_ROOT_FOLDER) := -fno-strict-aliasing
+CFLAGS_MobiCoreDriver/main.o := -fno-strict-aliasing
+CFLAGS_MobiCoreKernelApi/clientlib.o := -fno-strict-aliasing
+CFLAGS_MobiCoreKernelApi/connection.o := -fno-strict-aliasing
+
 mcDrvModule-objs := MobiCoreDriver/logging.o \
 		MobiCoreDriver/ops.o \
 		MobiCoreDriver/mem.o \
@@ -20,8 +25,8 @@ mcKernelApi-objs := MobiCoreKernelApi/main.o \
 		MobiCoreKernelApi/connection.o
 
 # Release mode by default
-ccflags-y := -DNDEBUG -I$(GUD_ROOT_FOLDER)
-ccflags-y += -Wno-declaration-after-statement
+ccflags-y := -DNDEBUG -fno-strict-aliasing -I$(GUD_ROOT_FOLDER)
+ccflags-y += -Wno-declaration-after-statement -fno-strict-aliasing
 
 ccflags-$(CONFIG_MOBICORE_DEBUG) += -DDEBUG
 ccflags-$(CONFIG_MOBICORE_VERBOSE) += -DDEBUG_VERBOSE

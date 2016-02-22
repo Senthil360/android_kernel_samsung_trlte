@@ -1,6 +1,28 @@
 #
 # Makefile for Linux CIFS VFS client 
 #
+CFLAGS_asn1.o := -fno-strict-aliasing
+CFLAGS_cifs.o := -fno-strict-aliasing
+CFLAGS_cifsfs.o := -fno-strict-aliasing
+CFLAGS_cifssmb.o := -fno-strict-aliasing
+CFLAGS_cifs_debug.o := -fno-strict-aliasing
+CFLAGS_connect.o := -fno-strict-aliasing
+CFLAGS_dir.o := -fno-strict-aliasing
+CFLAGS_file.o := -fno-strict-aliasing
+CFLAGS_inode.o := -fno-strict-aliasing
+CFLAGS_link.o := -fno-strict-aliasing
+CFLAGS_transport.o := -fno-strict-aliasing
+CFLAGS_cifs_unicode.o := -fno-strict-aliasing
+CFLAGS_xattr.o := -fno-strict-aliasing
+CFLAGS_cifsencrypt.o := -fno-strict-aliasing
+CFLAGS_misc.o := -fno-strict-aliasing
+CFLAGS_netmisc.o := -fno-strict-aliasing
+CFLAGS_smbencrypt.o := -fno-strict-aliasing
+CFLAGS_readdir.o := -fno-strict-aliasing
+CFLAGS_ioctl.o := -fno-strict-aliasing
+CFLAGS_sess.o := -fno-strict-aliasing
+CFLAGS_export.o := -fno-strict-aliasing
+CFLAGS_smb1ops.o := -fno-strict-aliasing
 obj-$(CONFIG_CIFS) += cifs.o
 
 cifs-y := cifsfs.o cifssmb.o cifs_debug.o connect.o dir.o file.o inode.o \
