@@ -345,14 +345,14 @@ export READELF
 cmd_fips_gen_hmac = $(CONFIG_SHELL) $(srctree)/scripts/fips_crypto_hmac.sh $(objtree)/vmlinux $(objtree)/System.map
 endif
 
-GRAPHITE = -fgraphite-identity -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -floop-flatten -floop-nest-optimize -floop-unroll-and-jam
+GRAPHITE = -fgraphite-identity -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -floop-flatten -floop-nest-optimize -floop-unroll-and-jam 
 
 
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF) -Wno-implicit-function-declaration
 CFLAGS_MODULE   = -DMODULE $(GRAPHITE)
 AFLAGS_MODULE   = -DMODULE $(GRAPHITE)
-LDFLAGS_MODULE  = --strip-debug $(GRAPHITE)
+LDFLAGS_MODULE  = --strip-debug
 CFLAGS_KERNEL	= $(GRAPHITE)
 AFLAGS_KERNEL	= $(GRAPHITE)
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
@@ -391,7 +391,7 @@ KBUILD_CFLAGS   := $(GRAPHITE) -Wall -pipe -DNDEBUG -Wundef -Wstrict-prototypes 
 		   -fsingle-precision-constant -Wno-logical-not-parentheses \
 		   -fno-delete-null-pointer-checks -Wno-unused-variable \
 		   --param l1-cache-size=16 --param l1-cache-line-size=16 --param l2-cache-size=2048 \
-		   -std=gnu89
+		   -std=gnu89 -funwind-tables
 
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
